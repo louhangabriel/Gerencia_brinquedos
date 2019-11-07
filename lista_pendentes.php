@@ -1,5 +1,7 @@
 <?php
 	include "functions_listas.php"; 
+	print $h="10:00:00";
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,7 +18,38 @@
 	<?php
 	include "conexao.php";
 
-	if(isset($_GET['bt_cancelar_evento'])){
+	//CHECANDO SE RECEBEU OS DADOS PENDENTES PARA APROVAÇÃO
+			if(isset($_GET['confirmar_evento'])){
+				$id=$_GET['id'];
+				$nome=$_GET['name'];
+				$local=$_GET['local'];
+				$contato=$_GET['contato'];
+				$data=$_GET['dt'];
+				$inicio=$_GET['inicio'];
+				$tempo=$_GET['time'];
+				$brinquedos=$_GET['brinquedos'];
+				print "<h1><center>Antes de confirmar der uma ultima olhada nos detalhes do evento!</center></h1>";
+				print "<center><h2>Detalhes do evento</h2></center>";
+				print "<center class='info'><b>Contratante:</b> $nome<br><b>Local: </b>$local<br><b>Contato: </b>$contato<br><b>Data: </b>$data<br><b>Inicio do evento ás: </b>$inicio<br><b>Duração: </b>$tempo<br><b>Brinquedos: </b>$brinquedos</center>";
+				print "<a href='http://localhost/Gerencia_brinquedos/lista_pendentes.php?name=$nome&local=$local&contato=$contato&dt=$data&inicio=$inicio&time=$tempo&brinquedos=$brinquedos&bt_confirmar_evento=true&id=$id'><img src='confirmar_evento.png' id='confirmar_event'></a>";
+				print "<a href='http://localhost/Gerencia_brinquedos/lista_pendentes.php'><img src='voltar.png' id='cancelar_event'></a>";
+			}elseif(isset($_GET['cancelar_evento'])){
+				$id=$_GET['id'];
+				$nome=$_GET['name'];
+				$local=$_GET['local'];
+				$contato=$_GET['contato'];
+				$data=$_GET['dt'];
+				$inicio=$_GET['inicio'];
+				$tempo=$_GET['time'];
+				$brinquedos=$_GET['brinquedos'];
+				print "<h1><center>TEM CERTEZA QUE DESEJA CANCELAR ESTE EVENTO?</center></h1>";
+				print "<center><h2>Detalhes do evento</h2></center>";
+				print "<center class='info'><b>Contratante:</b> $nome<br><b>Local: </b>$local<br><b>Contato: </b>$contato<br><b>Data: </b>$data<br><b>Inicio do evento ás: </b>$inicio<br><b>Duração: </b>$tempo<br><b>Brinquedos: </b>$brinquedos</center>";
+				print "<a href='http://localhost/Gerencia_brinquedos/lista_pendentes.php?name=$nome&local=$local&contato=$contato&dt=$data&inicio=$inicio&time=$tempo&brinquedos=$brinquedos&bt_cancelar_evento=true&id=$id'><img src='lixeira.png' id='confirmar_event'></a>";
+				print "<a href='http://localhost/Gerencia_brinquedos/lista_pendentes.php?'><img src='voltar.png' id='cancelar_event'></a>";
+			}
+			
+	elseif(isset($_GET['bt_cancelar_evento'])){
 				$id=$_GET['id'];
 				$nome=$_GET['name'];
 				$local=$_GET['local'];
@@ -30,7 +63,7 @@
 					print "<center>O evento com o(a) contratante(a): <b>$nome</b> foi CANCELADO com sucesso!!<br>O contratante sera notificado por email.</center>";
 				}
 			}
-	if(isset($_GET['bt_confirmar_evento'])){
+	elseif(isset($_GET['bt_confirmar_evento'])){
 				print $id=$_GET['id'];
 				$nome=$_GET['name'];
 				$local=$_GET['local'];
@@ -43,39 +76,12 @@
 				$confirm=mysqli_query($con, "INSERT INTO confirmados (nome, local_evento, contato, data_inicio, inicio_evento, tempo_evento, brinquedo) values('$nome', '$local', '$contato', '$data', '$inicio', '$tempo', '$brinquedos')");
 				if($confirm){
 					mysqli_query($con,"DELETE FROM pendentes where id='$id'");	
-					header("location:http://localhost/gerenciamento-brinquedos/lista_confirmados.php");
+					header("location:http://localhost/Gerencia_brinquedos/lista_confirmados.php");
 				}else{
 					print "Não foi possivel Confirmar este evento! Certifique-se se já não confirmou ele em outro momento.";
 				}
-	}
-	elseif(isset($_GET['confirmar_evento'])){
-				print $id=$_GET['id'];
-				$nome=$_GET['name'];
-				$local=$_GET['local'];
-				$contato=$_GET['contato'];
-				$data=$_GET['dt'];
-				$inicio=$_GET['inicio'];
-				$tempo=$_GET['time'];
-				$brinquedos=$_GET['brinquedos'];
-				print "<h1><center>Antes de confirmar der uma ultima olhada nos detalhes do evento!</center></h1>";
-				print "<center><h2>Detalhes do evento</h2></center>";
-				print "<center class='info'><b>Contratante:</b> $nome<br><b>Local: </b>$local<br><b>Contato: </b>$contato<br><b>Data: </b>$data<br><b>Inicio do evento ás: </b>$inicio<br><b>Duração: </b>$tempo<br><b>Brinquedos: </b>$brinquedos</center>";
-				print "<a href='http://localhost/gerenciamento-brinquedos/lista_pendentes.php?name=$nome&local=$local&contato=$contato&dt=$data&inicio=$inicio&time=$tempo&brinquedos=$brinquedos&bt_confirmar_evento=true&id=$id'><img src='confirmar_evento.png' id='confirmar_event'></a>";
-				print "<img src='cancelar_evento.png' id='cancelar_event'>";
-			}elseif(isset($_GET['cancelar_evento'])){
-				print $id=$_GET['id'];
-				$nome=$_GET['name'];
-				$local=$_GET['local'];
-				$contato=$_GET['contato'];
-				$data=$_GET['dt'];
-				$inicio=$_GET['inicio'];
-				$tempo=$_GET['time'];
-				$brinquedos=$_GET['brinquedos'];
-				print "<h1><center>TEM CERTEZA QUE DESEJA CANCELAR ESTE EVENTO?</center></h1>";
-				print "<center><h2>Detalhes do evento</h2></center>";
-				print "<center class='info'><b>Contratante:</b> $nome<br><b>Local: </b>$local<br><b>Contato: </b>$contato<br><b>Data: </b>$data<br><b>Inicio do evento ás: </b>$inicio<br><b>Duração: </b>$tempo<br><b>Brinquedos: </b>$brinquedos</center>";
-				print "<a href='http://localhost/gerenciamento-brinquedos/lista_pendentes.php?name=$nome&local=$local&contato=$contato&dt=$data&inicio=$inicio&time=$tempo&brinquedos=$brinquedos&bt_cancelar_evento=true&id=$id'><img src='lixeira.png' id='confirmar_event'></a>";
-				print "<a href='http://localhost/gerenciamento-brinquedos/lista_pendentes.php?'><img src='voltar.png' id='cancelar_event'></a>";
+	
+	
 			}
 			else{
 ?>
@@ -134,8 +140,8 @@
 							<td><center>$recebe[5]</center></td>
 							<td><center>$recebe[6]</center></td>
 							<td><center>$recebe[7]</center></td>
-							<td><center><a href='http://localhost/gerenciamento-brinquedos/lista_pendentes.php?confirmar_evento=true&name=$recebe[1]&local=$recebe[2]&contato=$recebe[3]&dt=$recebe[4]&inicio=$recebe[5]&time=$recebe[6]&brinquedos=$recebe[7]&id=$recebe[0]'><img src='confirm.png' class='bts'></a></center></td>
-							<td><center><a href='http://localhost/gerenciamento-brinquedos/lista_pendentes.php?cancelar_evento=true&name=$recebe[1]&local=$recebe[2]&contato=$recebe[3]&dt=$recebe[4]&inicio=$recebe[5]&time=$recebe[6]&brinquedos=$recebe[7]&id=$recebe[0]'><img src='rejeitar.png' class='bts'></a></center></td>
+							<td><center><a href='http://localhost/Gerencia_brinquedos/lista_pendentes.php?confirmar_evento=true&name=$recebe[1]&local=$recebe[2]&contato=$recebe[3]&dt=$recebe[4]&inicio=$recebe[5]&time=$recebe[6]&brinquedos=$recebe[7]&id=$recebe[0]'><img src='confirm.png' class='bts'></a></center></td>
+							<td><center><a href='http://localhost/Gerencia_brinquedos/lista_pendentes.php?cancelar_evento=true&&name=$recebe[1]&&local=$recebe[2]&&contato=$recebe[3]&&dt=$recebe[4]&&inicio=$recebe[5]&&time=$recebe[6]&&brinquedos=$recebe[7]&&id=$recebe[0]'><img src='rejeitar.png' class='bts'></a></center></td>
 					</tr>	";
 
 					

@@ -19,31 +19,7 @@
 	</style>
 </head>
 <body>
-	<?php
-		if(isset($_POST['bt_solicitar'])){
-			$name_client=$_POST['name'];
-			$local_event=$_POST['local'];
-			$contact=$_POST['telefone'];
-			$date_event=$_POST['data_evento'];
-			$start_event=str_replace(":", ".", $_POST['inicio_time']);
-			$duration_event=str_replace(":", ".", $_POST['duracao_time']);
-			//PAREI AQUI (TRANSFORMEI STRING EM FORMATO DOUBLE) QUERO CALCULAR QUE HORAS TERMINA O EVENTO DE ACORDO COM O HORARIO QUE COMEÇA E QUANTAS HORAS DE EVENTO
-			print $start_event=(float)$start_event."<br>";	
-			print $duration_event."<br>";
-			print $start_event-$duration_event;
-			$x=4;
-			$brinquedo=" ";
-			//Obtendo o nome dos brinquedos selecionados por meio de um FOR
-			for($x=0; $x!=4; $x++){
-				$y="$x";
-				if(isset($_POST[$x])){
-					$brinquedo=$_POST[$x]."/".$brinquedo;
-				}
-			}
-			$importar=import_pendentes("$name_client", "$local_event", "$contact", "$date_event", "$start_event", "$duration_event", "$brinquedo");
-		}
-	?>
-	<form method='POST' name='contratar'>
+	<form method='POST' name='contratar' action="notification.php">
 		<input type='text' name='name' placeholder='Digite seu nome e sobrenome' required><br><br>
 		<input type='text' name='local' placeholder='Digite o Local do evento' required><br><br>
 		<input type='number' name='telefone' placeholder='Telefone para contato' class='tel' required><br>
