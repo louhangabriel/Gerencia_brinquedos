@@ -1,0 +1,7 @@
+==== TELA REGISTRAR POSIÇÃO ===
+
+- Nome da posição
+- Total de passos contém na posição
+- Tipo de posição (Raspagem, passagem, inversão, movimentação)
+
+<?php?>
