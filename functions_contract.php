@@ -1,10 +1,10 @@
 <?php
 	include "conexao.php";
 
-	function import_pendentes($name, $local, $contato, $date, $inicio_hour, $total_time, $brinquedo,$qt_brinquedos){
+	function import_pendentes($name, $local, $contato, $date, $inicio_hour, $total_time, $brinquedo,$qt_brinquedos, $data_final,$final_evento){
 		include "conexao.php";
-		$import=mysqli_query($con, "INSERT INTO pendentes (nome, local_evento, contato, data_inicio, inicio_evento, tempo_evento, brinquedo, quantidade)
-			values('$name', '$local', '$contato', '$date', '$inicio_hour', '$total_time', '$brinquedo','$qt_brinquedos')");
+		$import=mysqli_query($con, "INSERT INTO pendentes (nome, local_evento, contato, data_inicio, inicio_evento, tempo_evento, brinquedo, quantidade, data_final, final_evento)
+			values('$name', '$local', '$contato', '$date', '$inicio_hour', '$total_time', '$brinquedo','$qt_brinquedos', '$data_final', '$final_evento')");
 	}
 
 	//Função reservada para calcular diferença de horas e dias
@@ -70,5 +70,5 @@
 		}
 			
 	$teste=horas_diferenca(10,35,4,3,"20/11/2019");
-	print $teste[1];
+	
 ?>

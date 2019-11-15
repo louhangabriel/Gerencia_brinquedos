@@ -14,7 +14,7 @@
 			$contact=$_POST['telefone'];
 			$date_event=$_POST['data_evento'];
 			$dt=explode("-", $date_event);
-			print $data=$dt[2]."/".$dt[1]."/".$dt[0];
+			$data=$dt[2]."/".$dt[1]."/".$dt[0];
 			$start_event=explode(":", $_POST['inicio_time']);
 			$duration_event=explode(":", $_POST['duracao_time']);
 			//variaveis para cadastrar no banco;
@@ -22,13 +22,14 @@
 			$duracao=$_POST['duracao_time'];
 			//Quebrando horas em numeros inteiros
 			$int_inicio_hr=intval($start_event[0]);
-			$int_inicio_min=intval($start_event[1]);
+		 	$int_inicio_min=intval($start_event[1]);
 			$int_duration_hr=intval($duration_event[0]);
 			$int_duration_min=intval($duration_event[1]);
 			//Usando a função horas_diferenca(); para hora final do evento
-			$hora_final_evento=horas_diferenca($int_inicio_hr, $int_inicio_min, $int_duration_hr, $int_duration_min, $date_event);
-			$hora_cad=$hora_final_evento[0];
-			$data_cad=$horas_diferenca[1];
+			$hora_final_evento=horas_diferenca($int_inicio_hr, $int_inicio_min, $int_duration_hr, $int_duration_min, $data);
+			print $hora_cad=$hora_final_evento[0];
+			print "<br>";
+			print $data_cad=$hora_final_evento[1];
 			$x=4;
 			$brinquedo="";
 			//Obtendo o nome dos brinquedos selecionados por meio de um FOR
@@ -43,7 +44,7 @@
 				$arr=explode("/", $brinquedos_selecionados);
 				$total_brinquedos=count($arr)-1;
 	
-			$importar=import_pendentes("$name_client", "$local_event", "$contact", "$data", "$inicio_evento", "$duracao", "$brinquedo", "$total_brinquedos");
+			$inserir=mysqli_query($con, "INSERT INTO (nome, local_evento, contato, data_inicio, inicio_evento, tempo_evento, brinquedo, quantidade, data_final, final_evento) values('$name_client', '$local_event', '$contact', '$data', '$inicio_evento', '$duracao', '$brinquedo', '$total_brinquedos', '$data_cad', '$hora_cad')");
 			
 				print "<h1>Sua solicitação foi enviada com sucesso!</h1>";
 				print "<p><b>Contratante: </b> $name_client <br><b>Local: </b>$local_event <br><b>Data: </b>$data<br><b>Começa ás: </b>$inicio_evento<br><b>Duração: </b>$duracao<br><b>Brinquedos: </b>$brinquedo</p>";
